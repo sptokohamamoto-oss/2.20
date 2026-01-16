@@ -15,20 +15,21 @@ namespace ConsoleAPP20
         new FullTimeEmployee("E002","鈴木一郎",8.0),
         };
 
-            
-            foreach (Employee emp in employees)
-            {
-                double wage = emp.CalculateDailyWage();
-                Console.WriteLine($"社員ID: {emp.Id}, 名前: {emp.Name},給料: {(int)wage}");
 
+            foreach(var item in employees)
+{
+                double wage = item.CalculateDailyWage(item.HoursWorked);
+                int wageInt = (int)wage;
+                Console.WriteLine($"社員ID: {item.Id}, 名前: {item.Name}, 給料: {wageInt}");
             }
+            
         }
     }
     abstract class Employee
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public double HoursWorked { get; set; }
+        public string Id { get; }
+        public string Name { get; }
+        public double HoursWorked { get; }
 
         protected Employee(string id, string name, double hoursWorked)
         {
@@ -36,7 +37,7 @@ namespace ConsoleAPP20
             Name = name;
             HoursWorked = hoursWorked;
         }
-        public abstract double CalculateDailyWage();
+        public abstract double CalculateDailyWage(double hoursWorked);
     }
     class FullTimeEmployee : Employee
     {
@@ -47,12 +48,12 @@ namespace ConsoleAPP20
         public FullTimeEmployee(string id, string name, double hoursWorked) : base(id, name, hoursWorked)
         {
         }
-        public override double CalculateDailyWage()
+        public override double CalculateDailyWage(double hoursWorked)
         {
          double regularHours = Math.Min(8.0, HoursWorked);
          double overtimeHours = Math.Max(0.0, HoursWorked - 8.0);
 
-            return regularHours * HourlyWage + overtimeHours * HourlyWage * 1.25;
+            return regularHours * 1250 + overtimeHours * 1250 * 1.25;
 
         }
     }
@@ -63,9 +64,9 @@ namespace ConsoleAPP20
             : base(id,name,hoursWorked)
         {
         }
-        public override double CalculateDailyWage()
+        public override double CalculateDailyWage(double hoursWorked)
         {
-            return HoursWorked * HourlyWage;
+            return HoursWorked * 1000;
         }
     }
    
